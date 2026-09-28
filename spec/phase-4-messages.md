@@ -219,9 +219,9 @@ subscribeToMessages(
 │  Nova Mensagem                     [X]   │
 │                                          │
 │  Selecione os contatos:                  │
-│  ☑ João Silva                            │
-│  ☑ Maria Souza                           │
-│  ☐ Pedro Santos                          │
+│  [x] João Silva                            │
+│  [x] Maria Souza                           │
+│  [ ] Pedro Santos                          │
 │                                          │
 │  Mensagem:                               │
 │  ┌──────────────────────────────────┐    │
@@ -229,8 +229,8 @@ subscribeToMessages(
 │  │                                  │    │
 │  └──────────────────────────────────┘    │
 │                                          │
-│  ○ Enviar agora                          │
-│  ● Agendar para:                         │
+│  ( ) Enviar agora                          │
+│  (*) Agendar para:                         │
 │  ┌──────────────────────────────────┐    │
 │  │  29/09/2026  09:00               │    │
 │  └──────────────────────────────────┘    │
