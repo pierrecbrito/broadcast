@@ -268,7 +268,7 @@ export function MessageDialog({
                 type="datetime-local"
                 value={scheduledAtStr}
                 onChange={(e) => setScheduledAtStr(e.target.value)}
-                InputLabelProps={{ shrink: true }}
+                slotProps={{ inputLabel: { shrink: true } }}
                 fullWidth
                 disabled={submitting}
                 className="bg-white"
