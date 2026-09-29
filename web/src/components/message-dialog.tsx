@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Contact } from "../types/contact";
 import { Message, CreateMessageInput } from "../types/message";
+import { formatPhoneNumber } from "../utils/phone";
 
 type MessageDialogProps = {
   open: boolean;
@@ -202,7 +203,7 @@ export function MessageDialog({
                             {contact.name}
                           </Typography>
                           <Typography variant="caption" className="text-slate-500">
-                            {contact.phone}
+                            {formatPhoneNumber(contact.phone)}
                           </Typography>
                         </Box>
                       }

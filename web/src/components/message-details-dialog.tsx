@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import { Message } from "../types/message";
 import { Contact } from "../types/contact";
+import { formatPhoneNumber } from "../utils/phone";
 
 type MessageDetailsDialogProps = {
   open: boolean;
@@ -102,7 +103,7 @@ export function MessageDetailsDialog({
                 {recipientContacts.map((contact) => (
                   <li key={contact.id} className="py-1 px-2 flex justify-between items-center text-sm">
                     <span className="font-medium text-slate-800">{contact.name}</span>
-                    <span className="text-slate-500 text-xs">{contact.phone}</span>
+                    <span className="text-slate-500 text-xs">{formatPhoneNumber(contact.phone)}</span>
                   </li>
                 ))}
               </ul>

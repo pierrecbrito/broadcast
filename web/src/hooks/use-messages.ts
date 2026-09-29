@@ -6,6 +6,7 @@ import {
   createMessage,
   updateMessage,
   deleteMessage,
+  transitionScheduledMessageToSent,
 } from "../services/messages";
 import { getConnection } from "../services/connections";
 import { getContactsByConnection } from "../services/contacts";
@@ -62,6 +63,29 @@ export function useMessages(
 
     return () => unsubscribe();
   }, [user, connectionId, statusFilter]);
+
+  // Processa automaticamente transicao de mensagens agendadas vencidas
+  useEffect(() => {
+    if (!user || messages.length === 0) return;
+
+    const checkAndTransition = () => {
+      const now = Date.now();
+      messages.forEach((msg) => {
+        if (
+          msg.status === "scheduled" &&
+          msg.scheduledAt &&
+          msg.scheduledAt.getTime() <= now
+        ) {
+          Promise.resolve(transitionScheduledMessageToSent(msg.id)).catch(() => {});
+        }
+      });
+    };
+
+    checkAndTransition();
+    const interval = setInterval(checkAndTransition, 3000);
+
+    return () => clearInterval(interval);
+  }, [user, messages]);
 
   const create = async (input: CreateMessageInput) => {
     if (!user) throw new Error("Usuario nao autenticado.");

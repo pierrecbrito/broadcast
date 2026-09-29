@@ -18,6 +18,7 @@ import { useContacts } from "../hooks/use-contacts";
 import { Contact } from "../types/contact";
 import { ContactDialog } from "../components/contact-dialog";
 import { ConfirmDialog } from "../components/confirm-dialog";
+import { formatPhoneNumber } from "../utils/phone";
 
 export function ContactsPage() {
   const { id: connectionId } = useParams<{ id: string }>();
@@ -149,7 +150,7 @@ export function ContactsPage() {
                   <TableCell className="font-medium text-slate-800">
                     {contact.name}
                   </TableCell>
-                  <TableCell className="text-slate-600">{contact.phone}</TableCell>
+                  <TableCell className="text-slate-600">{formatPhoneNumber(contact.phone)}</TableCell>
                   <TableCell className="text-slate-500">
                     {contact.createdAt.toLocaleDateString("pt-BR")}
                   </TableCell>

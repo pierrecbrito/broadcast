@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Contact } from "../types/contact";
+import { formatPhoneNumber, unformatPhoneNumber } from "../utils/phone";
 
 type ContactDialogProps = {
   open: boolean;
@@ -30,7 +31,7 @@ export function ContactDialog({
   useEffect(() => {
     if (initialData) {
       setName(initialData.name);
-      setPhone(initialData.phone);
+      setPhone(formatPhoneNumber(initialData.phone));
     } else {
       setName("");
       setPhone("");
@@ -43,21 +44,26 @@ export function ContactDialog({
     setError(null);
 
     const trimmedName = name.trim();
-    const trimmedPhone = phone.trim();
+    const phoneDigits = unformatPhoneNumber(phone);
 
     if (!trimmedName || trimmedName.length < 2) {
       setError("O nome do contato deve ter pelo menos 2 caracteres.");
       return;
     }
 
-    if (!trimmedPhone) {
+    if (!phoneDigits) {
       setError("O telefone do contato e obrigatorio.");
+      return;
+    }
+
+    if (phoneDigits.length < 10) {
+      setError("Informe um telefone valido no formato (11) 98765-4321 com DDD.");
       return;
     }
 
     try {
       setSubmitting(true);
-      await onSubmit(trimmedName, trimmedPhone);
+      await onSubmit(trimmedName, formatPhoneNumber(phone));
       onClose();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erro ao salvar contato.");
@@ -100,9 +106,10 @@ export function ContactDialog({
             fullWidth
             variant="outlined"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
             disabled={submitting}
             placeholder="Ex: (11) 98765-4321"
+            helperText="Formato: (DD) 9XXXX-XXXX"
           />
         </DialogContent>
         <DialogActions className="px-6 pb-4">

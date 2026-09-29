@@ -63,11 +63,13 @@ describe("ContactDialog", () => {
     );
 
     const user = userEvent.setup();
+    const phoneInput = screen.getByLabelText(/telefone/i);
     await user.type(screen.getByLabelText(/nome do contato/i), "Ana Paula");
-    await user.type(screen.getByLabelText(/telefone/i), "11988887777");
+    await user.type(phoneInput, "11988887777");
+    expect(phoneInput).toHaveValue("(11) 98888-7777");
     await user.click(screen.getByRole("button", { name: /salvar/i }));
 
-    expect(mockOnSubmit).toHaveBeenCalledWith("Ana Paula", "11988887777");
+    expect(mockOnSubmit).toHaveBeenCalledWith("Ana Paula", "(11) 98888-7777");
     expect(mockOnClose).toHaveBeenCalled();
   });
 });

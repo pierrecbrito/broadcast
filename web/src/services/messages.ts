@@ -121,6 +121,15 @@ export async function deleteMessage(id: string): Promise<void> {
   await deleteDoc(docRef);
 }
 
+export async function transitionScheduledMessageToSent(id: string): Promise<void> {
+  const docRef = doc(db, MESSAGES_COLLECTION, id);
+  await updateDoc(docRef, {
+    status: "sent",
+    sentAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+}
+
 export function subscribeToMessages(
   connectionId: string,
   userId: string,
