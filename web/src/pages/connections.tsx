@@ -140,9 +140,17 @@ export function ConnectionsPage() {
           {connections.map((conn) => (
             <Card
               key={conn.id}
-              className="bg-white border border-slate-200/90 rounded-2xl shadow-subtle card-hover-effect flex flex-col justify-between overflow-hidden"
+              className="group bg-white border border-slate-200/90 rounded-2xl shadow-subtle card-hover-effect flex flex-col justify-between overflow-hidden relative"
             >
-              <CardContent className="p-6">
+              {/* Marca d'agua semi-transparente de ondas de broadcast / transmissao */}
+              <div
+                aria-hidden="true"
+                className="absolute -right-7 -bottom-7 pointer-events-none select-none text-indigo-600/[0.05] group-hover:text-indigo-600/[0.09] group-hover:scale-105 transition-all duration-300 transform -rotate-12 z-0"
+              >
+                <SensorsRoundedIcon sx={{ fontSize: 160 }} />
+              </div>
+
+              <CardContent className="p-6 relative z-10">
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="w-11 h-11 rounded-xl bg-indigo-50/80 border border-indigo-100/70 text-indigo-600 flex items-center justify-center shadow-xs">
                     <SensorsRoundedIcon fontSize="small" />
@@ -161,7 +169,7 @@ export function ConnectionsPage() {
                 </Typography>
               </CardContent>
 
-              <CardActions className="px-5 py-3.5 bg-slate-50/50 border-t border-slate-100 flex flex-wrap justify-between items-center gap-2">
+              <CardActions className="px-5 py-3.5 bg-slate-50/50 border-t border-slate-100 flex flex-wrap justify-between items-center gap-2 relative z-10">
                 <Box className="flex gap-2">
                   <Button
                     size="small"
