@@ -21,6 +21,61 @@ import { Connection } from "../types/connection";
 import { ConnectionDialog } from "../components/connection-dialog";
 import { ConfirmDialog } from "../components/confirm-dialog";
 
+// Componente de marca d'agua de ondas de transmissao/broadcast
+function BroadcastWavesWatermark({
+  size = 170,
+  opacity = 0.14,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
+  return (
+    <Box
+      aria-hidden="true"
+      sx={{
+        position: "absolute",
+        right: -15,
+        bottom: -15,
+        pointerEvents: "none",
+        userSelect: "none",
+        zIndex: 0,
+        color: `rgba(99, 102, 241, ${opacity})`,
+        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+        transform: "rotate(-10deg)",
+        ".group:hover &": {
+          transform: "scale(1.08) rotate(-4deg)",
+          color: `rgba(99, 102, 241, ${opacity + 0.10})`,
+        },
+      }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+      >
+        {/* Ponto emissor central */}
+        <circle cx="50" cy="50" r="4.5" fill="currentColor" />
+        {/* Onda 1 */}
+        <path d="M 38 38 A 17 17 0 0 0 38 62" />
+        <path d="M 62 38 A 17 17 0 0 1 62 62" />
+        {/* Onda 2 */}
+        <path d="M 28 28 A 31 31 0 0 0 28 72" />
+        <path d="M 72 28 A 31 31 0 0 1 72 72" />
+        {/* Onda 3 */}
+        <path d="M 18 18 A 45 45 0 0 0 18 82" />
+        <path d="M 82 18 A 45 45 0 0 1 82 82" />
+        {/* Onda 4 */}
+        <path d="M 8 8 A 59 59 0 0 0 8 92" />
+        <path d="M 92 8 A 59 59 0 0 1 92 92" />
+      </svg>
+    </Box>
+  );
+}
+
 export function ConnectionsPage() {
   const navigate = useNavigate();
   const { connections, loading, error, create, update, remove } = useConnections();
@@ -115,40 +170,44 @@ export function ConnectionsPage() {
           <CircularProgress size={36} thickness={4} />
         </Box>
       ) : connections.length === 0 ? (
-        <Card className="border border-dashed border-slate-300 p-12 text-center bg-white/60 backdrop-blur-xs rounded-2xl shadow-none">
-          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
-            <SensorsRoundedIcon fontSize="medium" />
+        <Card
+          sx={{ position: "relative", overflow: "hidden" }}
+          className="group border border-dashed border-slate-300 p-12 text-center bg-white/60 backdrop-blur-xs rounded-2xl shadow-none"
+        >
+          {/* Marca d'agua no card vazio */}
+          <BroadcastWavesWatermark size={220} opacity={0.08} />
+
+          <div className="relative z-10">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
+              <SensorsRoundedIcon fontSize="medium" />
+            </div>
+            <Typography variant="h6" className="text-slate-800 font-semibold mb-1">
+              Nenhuma conexao cadastrada
+            </Typography>
+            <Typography variant="body2" className="text-slate-500 mb-6 max-w-md mx-auto">
+              Crie sua primeira conexao para começar a gerenciar contatos e disparar mensagens.
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<AddRoundedIcon />}
+              onClick={handleOpenCreate}
+              className="font-medium"
+            >
+              Criar Conexao
+            </Button>
           </div>
-          <Typography variant="h6" className="text-slate-800 font-semibold mb-1">
-            Nenhuma conexao cadastrada
-          </Typography>
-          <Typography variant="body2" className="text-slate-500 mb-6 max-w-md mx-auto">
-            Crie sua primeira conexao para começar a gerenciar contatos e disparar mensagens.
-          </Typography>
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<AddRoundedIcon />}
-            onClick={handleOpenCreate}
-            className="font-medium"
-          >
-            Criar Conexao
-          </Button>
         </Card>
       ) : (
         <Box className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {connections.map((conn) => (
             <Card
               key={conn.id}
-              className="group bg-white border border-slate-200/90 rounded-2xl shadow-subtle card-hover-effect flex flex-col justify-between overflow-hidden relative"
+              sx={{ position: "relative", overflow: "hidden" }}
+              className="group bg-white border border-slate-200/90 rounded-2xl shadow-subtle card-hover-effect flex flex-col justify-between"
             >
               {/* Marca d'agua semi-transparente de ondas de broadcast / transmissao */}
-              <div
-                aria-hidden="true"
-                className="absolute -right-7 -bottom-7 pointer-events-none select-none text-indigo-600/[0.05] group-hover:text-indigo-600/[0.09] group-hover:scale-105 transition-all duration-300 transform -rotate-12 z-0"
-              >
-                <SensorsRoundedIcon sx={{ fontSize: 160 }} />
-              </div>
+              <BroadcastWavesWatermark size={175} opacity={0.15} />
 
               <CardContent className="p-6 relative z-10">
                 <div className="flex items-start justify-between gap-3 mb-4">
