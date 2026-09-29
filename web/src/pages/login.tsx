@@ -9,12 +9,8 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
-import Chip from "@mui/material/Chip";
 import SensorsRoundedIcon from "@mui/icons-material/SensorsRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
-import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import { useAuth } from "../hooks/use-auth";
 
 export function LoginPage() {
@@ -66,23 +62,23 @@ export function LoginPage() {
   return (
     <Box className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-white">
       {/* PAINEL HERO (LADO ESQUERDO) */}
-      <Box className="hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-between p-10 xl:p-16 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 text-white relative overflow-hidden border-r border-slate-800/80">
+      <Box className="hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-between p-12 xl:p-20 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white relative overflow-hidden border-r border-slate-800/60">
         {/* Marca d'agua decorativa de ondas de transmissao no fundo do hero */}
         <Box
           aria-hidden="true"
           sx={{
             position: "absolute",
-            right: -60,
-            bottom: -60,
+            right: -50,
+            bottom: -50,
             pointerEvents: "none",
             userSelect: "none",
             zIndex: 0,
-            color: "rgba(129, 140, 248, 0.07)",
+            color: "rgba(129, 140, 248, 0.06)",
           }}
         >
           <svg
-            width="440"
-            height="440"
+            width="460"
+            height="460"
             viewBox="0 0 100 100"
             fill="none"
             stroke="currentColor"
@@ -102,83 +98,36 @@ export function LoginPage() {
         </Box>
 
         {/* Efeito de luz ambiente difusa */}
-        <div className="absolute top-1/4 left-10 w-80 h-80 rounded-full bg-indigo-600/15 filter blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 left-10 w-96 h-96 rounded-full bg-indigo-600/10 filter blur-3xl pointer-events-none" />
 
-        {/* Topo do Hero: Marca e Badge */}
+        {/* Topo do Hero: Apenas a Marca */}
         <Box className="relative z-10 flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 to-violet-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 to-violet-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/25">
             <SensorsRoundedIcon fontSize="medium" />
           </div>
           <Typography variant="h6" className="font-extrabold text-white tracking-tight text-xl">
             Broadcast
           </Typography>
-          <Chip
-            label="SaaS Console"
-            size="small"
-            className="text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-          />
         </Box>
 
-        {/* Meio do Hero: Mensagem de Impacto e Recursos */}
-        <Box className="relative z-10 my-auto py-12 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-6">
-            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
-            Plataforma Inteligente de Mensageria
-          </div>
-
+        {/* Meio do Hero: Mensagem Simples e Direta */}
+        <Box className="relative z-10 my-auto py-12 max-w-lg">
           <Typography
-            variant="h3"
+            variant="h2"
             component="h2"
-            className="font-extrabold text-white tracking-tight leading-tight mb-4 text-3xl xl:text-4xl"
+            className="font-extrabold text-white tracking-tight leading-tight mb-4 text-3xl sm:text-4xl xl:text-5xl"
           >
-            Comunicação em escala com simplicidade e precisão.
+            Comunicação em escala.
           </Typography>
 
-          <Typography variant="body1" className="text-slate-300 text-base leading-relaxed mb-8 font-normal">
-            Gerencie canais de transmissão, organize seus contatos e dispare broadcasts instantâneos ou agendados com alta disponibilidade.
+          <Typography variant="body1" className="text-slate-400 text-lg font-normal leading-relaxed">
+            Transmissões rápidas, elegantes e sem atritos.
           </Typography>
-
-          {/* Cards de destaques */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xs">
-              <div className="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
-                <SensorsRoundedIcon fontSize="small" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-white block">Multi-conexões centralizadas</span>
-                <span className="text-[11px] text-slate-400">Organize canais dedicados para suporte, vendas e avisos.</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xs">
-              <div className="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
-                <PeopleAltRoundedIcon fontSize="small" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-white block">Gestão inteligente de destinatários</span>
-                <span className="text-[11px] text-slate-400">Validação e formatação automática de números com DDD.</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xs">
-              <div className="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
-                <ScheduleRoundedIcon fontSize="small" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-white block">Agendamento pontual ou imediato</span>
-                <span className="text-[11px] text-slate-400">Programação de disparos com transição automática.</span>
-              </div>
-            </div>
-          </div>
         </Box>
 
-        {/* Rodapé do Hero */}
-        <Box className="relative z-10 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
-          <div className="flex items-center gap-2">
-            <CheckCircleRoundedIcon sx={{ fontSize: 15 }} className="text-emerald-400" />
-            <span>Infraestrutura em Nuvem Segura</span>
-          </div>
-          <span>v1.0 SaaS</span>
+        {/* Rodapé discreto */}
+        <Box className="relative z-10 text-xs text-slate-500 font-medium">
+          © {new Date().getFullYear()} Broadcast
         </Box>
       </Box>
 
