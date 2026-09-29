@@ -11,6 +11,15 @@ import Snackbar from "@mui/material/Snackbar";
 import Chip from "@mui/material/Chip";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import PeopleOutlineRoundedIcon from "@mui/icons-material/PeopleOutlineRounded";
 import { useMessages } from "../hooks/use-messages";
 import { Message, MessageStatus, CreateMessageInput } from "../types/message";
 import { MessageDialog } from "../components/message-dialog";
@@ -107,35 +116,49 @@ export function MessagesPage() {
         <Button
           variant="text"
           color="secondary"
+          startIcon={<ArrowBackRoundedIcon fontSize="small" />}
           onClick={() => navigate("/connections")}
-          className="mb-2"
+          className="text-xs font-semibold text-slate-500 hover:text-slate-900 -ml-2"
         >
-          &larr; Voltar para Conexoes
+          Voltar para Conexoes
         </Button>
       </Box>
 
       <Box className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <Typography variant="h5" component="h1" className="font-bold text-slate-800">
-            Mensagens {connectionName ? `- ${connectionName}` : ""}
-          </Typography>
-          <Typography variant="body2" className="text-slate-500">
+          <div className="flex items-center gap-3 mb-1">
+            <Typography variant="h5" component="h1" className="font-bold text-slate-900 tracking-tight">
+              Mensagens {connectionName ? `- ${connectionName}` : ""}
+            </Typography>
+            <Chip
+              label={`${messages.length} listada${messages.length === 1 ? "" : "s"}`}
+              size="small"
+              className="text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200"
+            />
+          </div>
+          <Typography variant="body2" className="text-slate-500 font-normal">
             Envio e agendamento de broadcasts para contatos
           </Typography>
         </div>
         <Button
           variant="contained"
           color="primary"
+          startIcon={<SendRoundedIcon />}
           onClick={handleOpenCreate}
-          className="font-semibold"
+          className="font-semibold shadow-sm px-4 py-2"
         >
           Nova Mensagem
         </Button>
       </Box>
 
       {/* Tabs de Filtro por Status */}
-      <Box className="border-b border-slate-200 mb-6">
-        <Tabs value={statusFilter} onChange={handleFilterChange} aria-label="filtro de status">
+      <Box className="border-b border-slate-200 mb-8">
+        <Tabs
+          value={statusFilter}
+          onChange={handleFilterChange}
+          aria-label="filtro de status"
+          className="min-h-0"
+        >
           <Tab label="Todas" value="all" className="font-semibold" />
           <Tab label="Enviadas" value="sent" className="font-semibold" />
           <Tab label="Agendadas" value="scheduled" className="font-semibold" />
@@ -143,28 +166,37 @@ export function MessagesPage() {
       </Box>
 
       {error && (
-        <Alert severity="error" className="mb-6">
+        <Alert severity="error" className="mb-6 rounded-xl border border-red-200">
           {error}
         </Alert>
       )}
 
       {loading ? (
-        <Box className="flex justify-center items-center py-16">
-          <CircularProgress />
+        <Box className="flex justify-center items-center py-24">
+          <CircularProgress size={36} thickness={4} />
         </Box>
       ) : messages.length === 0 ? (
-        <Card className="border border-dashed border-slate-300 p-12 text-center bg-white shadow-none">
-          <Typography variant="h6" className="text-slate-700 font-semibold mb-2">
+        <Card className="border border-dashed border-slate-300 p-12 text-center bg-white/60 backdrop-blur-xs rounded-2xl shadow-none">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
+            <ChatBubbleOutlineRoundedIcon fontSize="medium" />
+          </div>
+          <Typography variant="h6" className="text-slate-800 font-semibold mb-1">
             Nenhuma mensagem encontrada
           </Typography>
-          <Typography variant="body2" className="text-slate-500 mb-6">
+          <Typography variant="body2" className="text-slate-500 mb-6 max-w-md mx-auto">
             {statusFilter === "sent"
               ? "Nenhuma mensagem enviada nesta conexao."
               : statusFilter === "scheduled"
               ? "Nenhuma mensagem agendada no momento."
               : "Dispare sua primeira mensagem agora ou agende para um horario futuro."}
           </Typography>
-          <Button variant="outlined" color="primary" onClick={handleOpenCreate}>
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<SendRoundedIcon />}
+            onClick={handleOpenCreate}
+            className="font-medium"
+          >
             Criar Mensagem
           </Button>
         </Card>
@@ -176,18 +208,27 @@ export function MessagesPage() {
             return (
               <Card
                 key={msg.id}
-                className="border border-slate-200 shadow-sm hover:border-slate-300 transition-colors"
+                className="bg-white border border-slate-200/90 rounded-2xl shadow-subtle card-hover-effect overflow-hidden"
               >
-                <CardContent className="p-4 sm:p-5">
-                  <Box className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                    <Box className="flex items-center gap-2 flex-wrap">
-                      <Chip
-                        label={isSent ? "Enviada" : "Agendada"}
-                        color={isSent ? "success" : "warning"}
-                        size="small"
-                        className="font-semibold text-xs"
-                      />
-                      <Typography variant="caption" className="text-slate-500">
+                <CardContent className="p-5 sm:p-6">
+                  <Box className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <Box className="flex items-center gap-2.5 flex-wrap">
+                      <div
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                          isSent
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200/60"
+                            : "bg-amber-50 text-amber-700 border-amber-200/60"
+                        }`}
+                      >
+                        {isSent ? (
+                          <CheckCircleOutlineRoundedIcon sx={{ fontSize: 13 }} />
+                        ) : (
+                          <AccessTimeRoundedIcon sx={{ fontSize: 13 }} />
+                        )}
+                        <span>{isSent ? "Enviada" : "Agendada"}</span>
+                      </div>
+
+                      <Typography variant="caption" className="text-slate-400 font-medium">
                         {isSent
                           ? `Enviada em: ${
                               msg.sentAt
@@ -202,34 +243,40 @@ export function MessagesPage() {
                       </Typography>
                     </Box>
 
-                    <Typography variant="caption" className="text-slate-500">
-                      {msg.contactIds.length} contato(s) selecionado(s)
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/60 text-slate-600 text-xs font-medium">
+                      <PeopleOutlineRoundedIcon sx={{ fontSize: 13 }} className="text-slate-400" />
+                      <span>{msg.contactIds.length} contato(s) selecionado(s)</span>
+                    </div>
+                  </Box>
+
+                  <Box className="bg-slate-50/70 border border-slate-200/60 rounded-xl p-4 mb-4">
+                    <Typography
+                      variant="body1"
+                      className="text-slate-800 line-clamp-3 font-normal leading-relaxed text-sm sm:text-base"
+                    >
+                      {msg.body}
                     </Typography>
                   </Box>
 
-                  <Typography
-                    variant="body1"
-                    className="text-slate-800 line-clamp-2 mb-4 font-normal"
-                  >
-                    {msg.body}
-                  </Typography>
-
-                  <Box className="flex justify-between items-center pt-2 border-t border-slate-100">
+                  <Box className="flex justify-between items-center pt-1">
                     <Button
                       size="small"
                       color="primary"
+                      startIcon={<VisibilityOutlinedIcon fontSize="small" />}
                       onClick={() => handleOpenDetails(msg)}
-                      className="font-medium"
+                      className="font-semibold text-xs text-indigo-600 hover:text-indigo-700"
                     >
                       Ver Detalhes
                     </Button>
 
-                    <Box className="flex gap-2">
+                    <Box className="flex gap-1">
                       {!isSent && (
                         <Button
                           size="small"
                           color="inherit"
+                          startIcon={<EditOutlinedIcon fontSize="small" />}
                           onClick={() => handleOpenEdit(msg)}
+                          className="text-xs text-slate-600"
                         >
                           Editar
                         </Button>
@@ -237,7 +284,9 @@ export function MessagesPage() {
                       <Button
                         size="small"
                         color="error"
+                        startIcon={<DeleteOutlineRoundedIcon fontSize="small" />}
                         onClick={() => handleOpenDelete(msg)}
+                        className="text-xs"
                       >
                         Excluir
                       </Button>
@@ -287,3 +336,4 @@ export function MessagesPage() {
     </Box>
   );
 }
+

@@ -9,6 +9,8 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
+import SensorsRoundedIcon from "@mui/icons-material/SensorsRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useAuth } from "../hooks/use-auth";
 
 export function RegisterPage() {
@@ -66,20 +68,27 @@ export function RegisterPage() {
   };
 
   return (
-    <Box className="min-h-screen flex items-center justify-center p-4 bg-slate-50">
-      <Card className="w-full max-w-md shadow-lg border border-slate-200">
-        <CardContent className="p-8">
-          <Box className="text-center mb-6">
-            <Typography variant="h4" component="h1" className="font-bold text-slate-800">
+    <Box className="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-slate-50 ambient-bg relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="ambient-glow" />
+      <div className="ambient-glow-left" />
+
+      <Card className="w-full max-w-md shadow-premium border border-slate-200/90 rounded-3xl bg-white/95 backdrop-blur-md relative z-10 overflow-hidden">
+        <CardContent className="p-8 sm:p-10">
+          <Box className="text-center mb-8">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center shadow-md shadow-indigo-500/25 mx-auto mb-4">
+              <SensorsRoundedIcon fontSize="medium" />
+            </div>
+            <Typography variant="h4" component="h1" className="font-extrabold text-slate-900 tracking-tight">
               Broadcast
             </Typography>
-            <Typography variant="body2" className="text-slate-500 mt-1">
+            <Typography variant="body2" className="text-slate-500 mt-1.5 font-normal">
               Crie sua conta para acessar o painel
             </Typography>
           </Box>
 
           {validationError && (
-            <Alert severity="error" className="mb-4">
+            <Alert severity="error" className="mb-6 rounded-xl border border-red-200">
               {validationError}
             </Alert>
           )}
@@ -97,6 +106,7 @@ export function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
+              className="mb-3"
             />
 
             <TextField
@@ -111,6 +121,7 @@ export function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
+              className="mb-3"
             />
 
             <TextField
@@ -125,6 +136,7 @@ export function RegisterPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               disabled={loading}
+              className="mb-4"
             />
 
             <Button
@@ -134,15 +146,20 @@ export function RegisterPage() {
               color="primary"
               size="large"
               disabled={loading}
-              className="mt-4 mb-3 py-3 font-semibold"
+              endIcon={!loading && <ArrowForwardRoundedIcon fontSize="small" />}
+              className="mt-2 mb-4 py-3 font-semibold shadow-md"
             >
               {loading ? <CircularProgress size={24} color="inherit" /> : "Criar Conta"}
             </Button>
 
-            <Box className="text-center mt-4">
-              <Typography variant="body2" className="text-slate-600">
+            <Box className="text-center mt-6 pt-4 border-t border-slate-100">
+              <Typography variant="body2" className="text-slate-500">
                 Ja possui uma conta?{" "}
-                <Link component={RouterLink} to="/login" className="font-medium text-blue-600">
+                <Link
+                  component={RouterLink}
+                  to="/login"
+                  className="font-semibold text-indigo-600 hover:text-indigo-700 underline-offset-4 hover:underline"
+                >
                   Fazer login
                 </Link>
               </Typography>
@@ -153,3 +170,4 @@ export function RegisterPage() {
     </Box>
   );
 }
+

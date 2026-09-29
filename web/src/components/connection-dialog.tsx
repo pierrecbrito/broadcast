@@ -57,14 +57,24 @@ export function ConnectionDialog({
   };
 
   return (
-    <Dialog open={open} onClose={submitting ? undefined : onClose} maxWidth="sm" fullWidth>
+    <Dialog
+      open={open}
+      onClose={submitting ? undefined : onClose}
+      maxWidth="sm"
+      fullWidth
+      slotProps={{
+        backdrop: {
+          sx: { backdropFilter: "blur(4px)", backgroundColor: "rgba(15, 23, 42, 0.4)" },
+        },
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        <DialogTitle>
+        <DialogTitle className="font-bold text-slate-900 tracking-tight text-xl pt-6 px-6 pb-2">
           {initialData ? "Editar Conexao" : "Nova Conexao"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className="px-6 py-2">
           {error && (
-            <Alert severity="error" className="mb-4 mt-1">
+            <Alert severity="error" className="mb-4 mt-1 rounded-xl border border-red-200">
               {error}
             </Alert>
           )}
@@ -80,10 +90,11 @@ export function ConnectionDialog({
             onChange={(e) => setName(e.target.value)}
             disabled={submitting}
             placeholder="Ex: WhatsApp Suporte"
+            className="mt-2"
           />
         </DialogContent>
-        <DialogActions className="px-6 pb-4">
-          <Button onClick={onClose} disabled={submitting} color="inherit">
+        <DialogActions className="px-6 pb-6 pt-3 flex justify-end gap-2 border-t border-slate-100">
+          <Button onClick={onClose} disabled={submitting} color="inherit" className="text-slate-600">
             Cancelar
           </Button>
           <Button
@@ -91,6 +102,7 @@ export function ConnectionDialog({
             variant="contained"
             color="primary"
             disabled={submitting}
+            className="shadow-sm font-semibold px-5"
           >
             {submitting ? <CircularProgress size={20} color="inherit" /> : "Salvar"}
           </Button>
@@ -99,3 +111,4 @@ export function ConnectionDialog({
     </Dialog>
   );
 }
+

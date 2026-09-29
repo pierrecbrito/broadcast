@@ -144,14 +144,24 @@ export function MessageDialog({
   };
 
   return (
-    <Dialog open={open} onClose={submitting ? undefined : onClose} maxWidth="md" fullWidth>
+    <Dialog
+      open={open}
+      onClose={submitting ? undefined : onClose}
+      maxWidth="md"
+      fullWidth
+      slotProps={{
+        backdrop: {
+          sx: { backdropFilter: "blur(4px)", backgroundColor: "rgba(15, 23, 42, 0.4)" },
+        },
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        <DialogTitle>
+        <DialogTitle className="font-bold text-slate-900 tracking-tight text-xl pt-6 px-6 pb-2">
           {isEditing ? "Editar Mensagem Agendada" : "Nova Mensagem"}
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent dividers className="px-6 py-4">
           {error && (
-            <Alert severity="error" className="mb-4">
+            <Alert severity="error" className="mb-5 rounded-xl border border-red-200">
               {error}
             </Alert>
           )}
@@ -159,7 +169,7 @@ export function MessageDialog({
           {/* Selecao de Contatos */}
           <Box className="mb-6">
             <Box className="flex justify-between items-center mb-2">
-              <Typography variant="subtitle2" className="font-semibold text-slate-700">
+              <Typography variant="subtitle2" className="font-bold text-slate-800 text-sm">
                 Destinatarios ({selectedContactIds.length} selecionado(s))
               </Typography>
               {contacts.length > 0 && (
@@ -170,23 +180,24 @@ export function MessageDialog({
                       indeterminate={someSelected}
                       onChange={(e) => handleSelectAll(e.target.checked)}
                       size="small"
+                      color="primary"
                     />
                   }
-                  label="Selecionar todos"
+                  label={<span className="text-xs font-medium text-slate-600">Selecionar todos</span>}
                 />
               )}
             </Box>
 
             {contacts.length === 0 ? (
-              <Alert severity="info" className="text-sm">
+              <Alert severity="info" className="text-sm rounded-xl">
                 Nenhum contato disponivel nesta conexao. Cadastre contatos antes de disparar mensagens.
               </Alert>
             ) : (
               <Paper
                 variant="outlined"
-                className="max-h-48 overflow-y-auto p-2 bg-slate-50 border-slate-200"
+                className="max-h-48 overflow-y-auto p-2.5 bg-slate-50/70 border-slate-200 rounded-xl"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                   {contacts.map((contact) => (
                     <FormControlLabel
                       key={contact.id}
@@ -195,19 +206,20 @@ export function MessageDialog({
                           checked={selectedContactIds.includes(contact.id)}
                           onChange={() => handleToggleContact(contact.id)}
                           size="small"
+                          color="primary"
                         />
                       }
                       label={
                         <Box>
-                          <Typography variant="body2" className="font-medium text-slate-800">
+                          <Typography variant="body2" className="font-semibold text-slate-800 text-xs">
                             {contact.name}
                           </Typography>
-                          <Typography variant="caption" className="text-slate-500">
+                          <Typography variant="caption" className="text-slate-500 text-[11px]">
                             {formatPhoneNumber(contact.phone)}
                           </Typography>
                         </Box>
                       }
-                      className="m-0 p-1 hover:bg-slate-100 rounded"
+                      className="m-0 px-2 py-1.5 hover:bg-white hover:shadow-xs rounded-lg transition-all border border-transparent hover:border-slate-200/60"
                     />
                   ))}
                 </div>
@@ -217,7 +229,7 @@ export function MessageDialog({
 
           {/* Corpo da Mensagem */}
           <Box className="mb-6">
-            <Typography variant="subtitle2" className="font-semibold text-slate-700 mb-2">
+            <Typography variant="subtitle2" className="font-bold text-slate-800 text-sm mb-2">
               Mensagem
             </Typography>
             <TextField
@@ -235,23 +247,24 @@ export function MessageDialog({
           {/* Modo de Envio (Enviar agora vs Agendar) */}
           {!isEditing && (
             <FormControl component="fieldset" className="mb-4">
-              <FormLabel component="legend" className="font-semibold text-slate-700 text-sm mb-1">
+              <FormLabel component="legend" className="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2">
                 Tipo de Disparo
               </FormLabel>
               <RadioGroup
                 row
                 value={sendMode}
                 onChange={(e) => setSendMode(e.target.value as "now" | "schedule")}
+                className="gap-4"
               >
                 <FormControlLabel
                   value="now"
-                  control={<Radio />}
-                  label="Enviar agora (simulado)"
+                  control={<Radio color="primary" />}
+                  label={<span className="text-sm font-medium text-slate-700">Enviar agora (simulado)</span>}
                 />
                 <FormControlLabel
                   value="schedule"
-                  control={<Radio />}
-                  label="Agendar disparo"
+                  control={<Radio color="primary" />}
+                  label={<span className="text-sm font-medium text-slate-700">Agendar disparo</span>}
                 />
               </RadioGroup>
             </FormControl>
@@ -259,8 +272,8 @@ export function MessageDialog({
 
           {/* Campo de Agendamento */}
           {(sendMode === "schedule" || isEditing) && (
-            <Box className="mt-2 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <Typography variant="subtitle2" className="font-semibold text-blue-900 mb-2">
+            <Box className="mt-2 p-4 bg-indigo-50/50 border border-indigo-100 rounded-2xl">
+              <Typography variant="subtitle2" className="font-bold text-indigo-950 mb-1 text-sm">
                 Programar Horario de Disparo
               </Typography>
               <TextField
@@ -272,17 +285,17 @@ export function MessageDialog({
                 slotProps={{ inputLabel: { shrink: true } }}
                 fullWidth
                 disabled={submitting}
-                className="bg-white"
+                className="bg-white mt-2 rounded-xl"
               />
-              <Typography variant="caption" className="text-blue-700 mt-1 block">
+              <Typography variant="caption" className="text-indigo-700 mt-2 block font-normal">
                 A mensagem permanecera com status Agendada e sera enviada automaticamente no horario definido via Cloud Functions.
               </Typography>
             </Box>
           )}
         </DialogContent>
 
-        <DialogActions className="px-6 py-4">
-          <Button onClick={onClose} disabled={submitting} color="inherit">
+        <DialogActions className="px-6 py-4 flex justify-end gap-2 bg-slate-50/50 border-t border-slate-100">
+          <Button onClick={onClose} disabled={submitting} color="inherit" className="text-slate-600">
             Cancelar
           </Button>
           <Button
@@ -290,7 +303,7 @@ export function MessageDialog({
             variant="contained"
             color="primary"
             disabled={submitting || (contacts.length === 0 && !isEditing)}
-            className="font-semibold"
+            className="font-semibold shadow-sm px-5"
           >
             {submitting ? (
               <CircularProgress size={20} color="inherit" />
@@ -307,3 +320,4 @@ export function MessageDialog({
     </Dialog>
   );
 }
+
