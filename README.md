@@ -119,7 +119,7 @@ Acesse a aplicacao em `http://localhost:5173`.
 
 O projeto conta com ampla cobertura de testes unitarios e de integracao em ambas as partes.
 
-### 5.1. Testes do Frontend (66 testes)
+### 5.1. Testes do Frontend (72 testes)
 ```bash
 cd web
 npm test
@@ -137,12 +137,13 @@ npm test
 
 1. Realize login na CLI do Firebase (se necessario):
    ```bash
-   npx firebase login
+   npx firebase-tools login
    ```
+   *(Ou instale globalmente com `npm install -g firebase-tools` e use `firebase login`)*
 
 2. Selecione ou associe o projeto Firebase criado no console:
    ```bash
-   npx firebase use --add
+   npx firebase-tools use --add
    ```
 
 3. Gere o bundle de producao do frontend:
@@ -161,19 +162,19 @@ npm test
 
 5. Execute o deploy completo (Hosting, Firestore Rules, Firestore Indexes e Functions):
    ```bash
-   npx firebase deploy
+   npx firebase-tools deploy
    ```
 
    Ou faca deploy individual:
    ```bash
    # Apenas regras e indices do Firestore
-   npx firebase deploy --only firestore
+   npx firebase-tools deploy --only firestore
 
    # Apenas Cloud Functions
-   npx firebase deploy --only functions
+   npx firebase-tools deploy --only functions
 
    # Apenas Frontend Hosting
-   npx firebase deploy --only hosting
+   npx firebase-tools deploy --only hosting
    ```
 
 6. O link publico de acesso estara disponivel no terminal ao concluir o deploy (ex: `https://<seu-projeto>.web.app`).
