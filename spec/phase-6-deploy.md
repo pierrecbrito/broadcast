@@ -163,17 +163,17 @@ O rewrite `** → /index.html` é essencial para que o React Router funcione —
 
 ## Checklist de Deploy
 
-- [ ] Projeto Firebase criado no console
-- [ ] Firebase Auth (email/senha) habilitado
-- [ ] Firestore criado (production mode)
-- [ ] `.firebaserc` configurado com project ID
-- [ ] `firebase.json` configurado
-- [ ] Variáveis de ambiente do frontend preenchidas (`.env`)
-- [ ] `npm run build` no `web/` sem erros
-- [ ] `npm run build` no `functions/` sem erros
-- [ ] Security Rules deployadas
-- [ ] Índices deployados
-- [ ] `firebase deploy` completo sem erros
+- [x] Projeto Firebase criado no console
+- [x] Firebase Auth (email/senha) habilitado
+- [x] Firestore criado (production mode)
+- [x] `.firebaserc` configurado com project ID
+- [x] `firebase.json` configurado
+- [x] Variáveis de ambiente do frontend preenchidas (`.env`)
+- [x] `npm run build` no `web/` sem erros
+- [x] `npm run build` no `functions/` sem erros
+- [x] Security Rules deployadas
+- [x] Índices deployados
+- [x] Firebase Hosting deployado com sucesso (`https://broadcast-saas-7eab2.web.app`)
 - [ ] Teste manual no URL do hosting
 - [ ] Cadastro funciona
 - [ ] Login funciona
